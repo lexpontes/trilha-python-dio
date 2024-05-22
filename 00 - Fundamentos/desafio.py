@@ -1,3 +1,5 @@
+from datetime import datetime
+
 menu = """
 [d] Depositar
 [s] Sacar
@@ -11,16 +13,20 @@ limite_saque = 500
 extrato = ""
 numero_saques = 0
 LIMITE_SAQUES_DIARIOS = 3
+ultimo_dia = datetime.now().day
 
 def resetar_saques():
     global numero_saques
     numero_saques = 0
 
-# Supondo que a função resetar_saques seja chamada uma vez por dia para reiniciar o contador de saques
-
 while True:
-    opcao = input(menu)
+    dia_atual = datetime.now().day
+    if dia_atual != ultimo_dia:
+        resetar_saques()
+        ultimo_dia = dia_atual
 
+    opcao = input(menu)
+    
     if opcao == "d":
         valor = float(input("Informe o valor do depósito: "))
         if valor > 0:
